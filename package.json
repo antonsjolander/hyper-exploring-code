@@ -9,6 +9,7 @@
 		"webpack-dev-server": "^4.15.0"
 	},
 	"dependencies": {
-		"babel-loader": "^9.1.2"
+		"babel-loader": "^9.1.2",
+		"gsap": "^3.12.5"
 	}
 }
