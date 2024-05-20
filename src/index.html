@@ -15,13 +15,29 @@
 
         canvas {
             display: block;
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 10;
+        }
+
+        img {
+            opacity: 0;
+        }
+
+        .container {
+            position: relative;
+
         }
     </style>
 </head>
 
 <body>
-    <canvas id="canvas"></canvas>
-
+    <div class="container">
+        <canvas id="canvas"></canvas>
+        <img
+            src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2021/07-06/small+white+fluffy+dog+smiling+at+the+camera+in+close-up-min.jpg" />
+    </div>
 </body>
 
 </html>
