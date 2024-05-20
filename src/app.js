@@ -1,37 +1,47 @@
 import { gsap } from "gsap";
-const img = document.querySelector("img");
-const imgSize = img.getBoundingClientRect();
-const c = document.getElementById("canvas");
-c.width = imgSize.width;
-c.height = imgSize.height;
-const ctx = c.getContext("2d");
 
-// Turn of image smoothing to get pixalted effect
-ctx.imageSmoothingEnabled = false;
-ctx.webkitImageSmoothingEnabled = false;
-ctx.mozImageSmoothingEnabled = false;
+function imagePixelate(container, index) {
+	const img = container.querySelector("img");
+	const imgSize = img.getBoundingClientRect();
+	const c = container.querySelector("canvas");
+	c.width = imgSize.width;
+	c.height = imgSize.height;
+	const ctx = c.getContext("2d");
+	const blockVal = container.dataset.blocks;
+	let animationFrame;
+	ctx.imageSmoothingEnabled = false;
+	ctx.webkitImageSmoothingEnabled = false;
+	ctx.mozImageSmoothingEnabled = false;
 
-const blocks = {
-	amount: 1,
-};
+	const blocks = {
+		amount: blockVal,
+	};
 
-function pixalte() {
-	requestAnimationFrame(pixalte);
-	const size = blocks.amount * 0.01;
+	function pixalte() {
+		animationFrame = requestAnimationFrame(pixalte);
+		const size = blocks.amount * 0.01;
 
-	const w = c.width * size;
-	const h = c.height * size;
-	ctx.drawImage(img, 0, 0, w, h);
+		const w = c.width * size;
+		const h = c.height * size;
+		ctx.drawImage(img, 0, 0, w, h);
 
-	ctx.drawImage(c, 0, 0, w, h, 0, 0, c.width, c.height);
+		ctx.drawImage(c, 0, 0, w, h, 0, 0, c.width, c.height);
+		console.log("runing");
+	}
+
+	pixalte();
+
+	gsap.to(blocks, {
+		amount: 100,
+		ease: "steps(100)",
+		duration: 3,
+		delay: 0.3 * index,
+		onComplete: () => {
+			cancelAnimationFrame(animationFrame);
+		},
+	});
 }
-pixalte();
 
-gsap.to(blocks, {
-	amount: 100,
-	delay: 2,
-	ease: "steps(100)",
-	duration: 6,
-	repeat: -1,
-	yoyo: true,
-});
+document
+	.querySelectorAll(".container")
+	.forEach((item, index) => imagePixelate(item, index));
